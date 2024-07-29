@@ -1,0 +1,22 @@
+{
+    "telos": {
+        "contracts": {
+            "swap_router": "0xc96afc666A4195366a46E4ca8C4f10f3C39Ee363",
+            "trove_manager": "0xb1F92104E1Ad5Ed84592666EfB1eB52b946E6e68",
+            "price_feed": "0xE421fC686099C4Dec31c9D58B51DE9608665FBF2",
+            "hint_helpers": "0xd0A31AD26c34F7E3A3B25dfaF0dbC7127EB0040B",
+            "sorted_troves": "0xc522218CDe91fbAd74820F10a4D6068b9b310e37",
+            "quoter": "0x067f4bb3696744a79b484Fa137Ee087cebaC5336"
+        },
+        "tokens": {
+            "USDM": "0x8f7D64ea96D729EF24a0F30b4526D47b80d877B9",
+            "USDT": "0x975Ed13fa16857E83e7C493C7741D556eaaD4A3f",
+            "collateral": "0xD102cE6A4dB07D247fcc28F366A623Df0938CA9E"
+        },
+        "rpcs": [
+            "https://mainnet.telos.net/evm",
+            "https://api.kainosbp.com/evm",
+            "https://rpc1.eu.telos.net/evm"
+        ]
+    }
+}
