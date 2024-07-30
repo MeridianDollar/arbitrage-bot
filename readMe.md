@@ -2,11 +2,10 @@
 
 This bot can be used to arbitrage the price of USDM, the process works as follows:
 
-
-- The bot will hold a reserve of USDT
-- If USDM dips below $1, the bot will swap USDT to USDM
-- The bot then redeems this USDM for $1 worth of TARA tokens through the platform
-- The bot then sells the TARA tokens on an DEX for $1 worth of USDT, netting a small profit in the process
+- The bot will hold a reserve of USDC
+- If USDM dips below $1, the bot will swap USDC to USDM
+- The bot then redeems this USDM for $1 worth of TLOS tokens through the platform
+- The bot then sells the TLOS tokens on an DEX for $1 worth of USDC, netting a small profit in the process
 
 ## Configuration
 
