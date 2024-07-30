@@ -1,4 +1,4 @@
-# Meridian Arbitrage Bot
+# Simple Meridian Arbitrage Bot
 
 This bot can be used to arbitrage the price of USDM, the process works as follows:
 
