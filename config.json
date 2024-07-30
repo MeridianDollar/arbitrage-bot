@@ -10,7 +10,7 @@
         },
         "tokens": {
             "USDM": "0x8f7D64ea96D729EF24a0F30b4526D47b80d877B9",
-            "USDT": "0x975Ed13fa16857E83e7C493C7741D556eaaD4A3f",
+            "USDC": "0x8D97Cea50351Fb4329d591682b148D43a0C3611b",
             "collateral": "0xD102cE6A4dB07D247fcc28F366A623Df0938CA9E"
         },
         "rpcs": [
