@@ -128,7 +128,7 @@ def configure_redemption_params(network, w3, _USDMamount):
     return params
     
 
-def quote_amount_out_redemptions(usdm_amount):
+def quote_amount_out_redemptions(network, w3,usdm_amount):
     _maxFeePercentage = fetch_redemption_fee_wit_decay(network, w3, usdm_amount)
     _collateralPrice = fetch_oracle_price(network, w3)
     
@@ -139,16 +139,16 @@ def quote_amount_out_redemptions(usdm_amount):
     return collateralRecieved * WEI
 
 
-def check_for_arbitrage(network, w3, amount_in):
+def check_for_arbitrage(amount_in):
+    network = "telos"
+    w3 = check_provider(config[network]["rpcs"])
     collateral = config[network]["tokens"]["collateral"]
     usdc = config[network]["tokens"]["USDC"]
     usdm = config[network]["tokens"]["USDM"]
 
     usdm_for_usdc = quote_exact_input_single(network, w3, amount_in, usdc, usdm)
-    collateral_for_usdm = quote_amount_out_redemptions(usdm_for_usdc)
+    collateral_for_usdm = quote_amount_out_redemptions(network, w3,usdm_for_usdc)
     usdc_for_collateral = quote_exact_input_single(network, w3, int(collateral_for_usdm), collateral, usdc)
-    
-    print(usdc_for_collateral, "usdc_for_collateral")
 
     if (usdc_for_collateral * TRIGGER_THRESHOLD) > amount_in:
         if network =="telos":
@@ -156,7 +156,7 @@ def check_for_arbitrage(network, w3, amount_in):
             swap_tokens_on_telos(network, w3, swap_params)
             
             usdm_balance = fetch_token_account_balance(w3, usdm)   
-            collateral_out = quote_amount_out_redemptions(usdm_balance) 
+            collateral_out = quote_amount_out_redemptions(network, w3, usdm_balance) 
                  
             redemption_params = configure_redemption_params(network, w3, usdm_balance)
             redeem_collateral(network, w3, redemption_params)
@@ -169,8 +169,3 @@ def check_for_arbitrage(network, w3, amount_in):
 
 
 
-network = "telos"
-w3 = check_provider(config[network]["rpcs"])
-amount_in = int(50e6)      
-
-check_for_arbitrage(network, w3, amount_in)

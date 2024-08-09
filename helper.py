@@ -9,7 +9,7 @@ load_dotenv()
 PRIVATE_KEY = os.getenv('PRIVATE_KEY')
 PUBLIC_KEY = os.getenv('PUBLIC_KEY')
 WEI = 1e18
-TRIGGER_THRESHOLD = 0.99
+TRIGGER_THRESHOLD = 0.9975
 
 with open("./config.json", "r") as jsonFile:
     config = json.load(jsonFile) 
