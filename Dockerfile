@@ -12,5 +12,6 @@ RUN pip3 install -r requirements.txt
 COPY abis.py .
 COPY helper.py .   
 COPY main.py . 
+COPY run.py . 
 COPY config.json . 
 COPY .env . 
