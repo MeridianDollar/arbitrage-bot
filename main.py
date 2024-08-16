@@ -139,33 +139,51 @@ def quote_amount_out_redemptions(network, w3,usdm_amount):
     return collateralRecieved * WEI
 
 
-def check_for_arbitrage(amount_in):
+def check_for_arbitrage(amount_in, in_stables):
     network = "telos"
     w3 = check_provider(config[network]["rpcs"])
     collateral = config[network]["tokens"]["collateral"]
     usdc = config[network]["tokens"]["USDC"]
     usdm = config[network]["tokens"]["USDM"]
 
-    usdm_for_usdc = quote_exact_input_single(network, w3, amount_in, usdc, usdm)
-    collateral_for_usdm = quote_amount_out_redemptions(network, w3,usdm_for_usdc)
-    usdc_for_collateral = quote_exact_input_single(network, w3, int(collateral_for_usdm), collateral, usdc)
+    if in_stables == True:
+        usdm_for_usdc = quote_exact_input_single(network, w3, amount_in, usdc, usdm)
+        collateral_for_usdm = quote_amount_out_redemptions(network, w3,usdm_for_usdc)
+        usdc_for_collateral = quote_exact_input_single(network, w3, int(collateral_for_usdm), collateral, usdc)
 
-    if (usdc_for_collateral * TRIGGER_THRESHOLD) > amount_in:
-        if network =="telos":
-            swap_params = config_swap_params(network, usdc, usdm, amount_in)  
-            swap_tokens_on_telos(network, w3, swap_params)
-            
-            usdm_balance = fetch_token_account_balance(w3, usdm)   
-            collateral_out = quote_amount_out_redemptions(network, w3, usdm_balance) 
-                 
-            redemption_params = configure_redemption_params(network, w3, usdm_balance)
-            redeem_collateral(network, w3, redemption_params)
-            
-            value = wrap_tokens(network, w3, int(collateral_out)) 
-            swap_params = config_swap_params(network, collateral, usdc, value)  
-            swap_tokens_on_telos(network, w3, swap_params)
+        if (usdc_for_collateral * TRIGGER_THRESHOLD) > amount_in:
+            if network =="telos":
+                swap_params = config_swap_params(network, usdc, usdm, amount_in)  
+                swap_tokens_on_telos(network, w3, swap_params)
+                
+                usdm_balance = fetch_token_account_balance(w3, usdm)   
+                collateral_out = quote_amount_out_redemptions(network, w3, usdm_balance) 
+                    
+                redemption_params = configure_redemption_params(network, w3, usdm_balance)
+                redeem_collateral(network, w3, redemption_params)
+                
+                value = wrap_tokens(network, w3, int(collateral_out)) 
+                swap_params = config_swap_params(network, collateral, usdc, value)  
+                swap_tokens_on_telos(network, w3, swap_params)
     else:
-        print("No arbitrage oppertunity available")
+        usdm_for_wtlos = quote_exact_input_single(network, w3, amount_in, collateral, usdm)
+        collateral_for_usdm = quote_amount_out_redemptions(network, w3, usdm_for_wtlos)
+        print(collateral_for_usdm, "collateral_for_usdm")
+        
+        if (collateral_for_usdm * TRIGGER_THRESHOLD) > amount_in:
+            if network =="telos":
+                swap_params = config_swap_params(network, collateral, usdm, amount_in)  
+                swap_tokens_on_telos(network, w3, swap_params)
+                    
+                usdm_balance = fetch_token_account_balance(w3, usdm)   
+                collateral_out = quote_amount_out_redemptions(network, w3, usdm_balance) 
+                        
+                redemption_params = configure_redemption_params(network, w3, usdm_balance)
+                redeem_collateral(network, w3, redemption_params)
+                value = wrap_tokens(network, w3, int(collateral_out)) 
+        
+                
+
 
 
 
